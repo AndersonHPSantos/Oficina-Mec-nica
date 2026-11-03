@@ -35,3 +35,9 @@ def database_health_check():
 
 app.include_router(veiculos_router)
 app.include_router(clientes_router)
+
+from app.api.routes.servicos import router as servicos_router
+from app.api.routes.pecas import router as pecas_router
+
+app.include_router(servicos_router)
+app.include_router(pecas_router)
