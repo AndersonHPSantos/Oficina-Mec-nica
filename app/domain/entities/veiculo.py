@@ -4,7 +4,7 @@ from uuid import UUID, uuid4
 from app.domain.value_objects.placa import Placa
 
 @dataclass
-class Veículo:
+class Veiculo:
     cliente_id: UUID
     placa: Placa
     marca: str
