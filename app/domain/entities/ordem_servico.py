@@ -1,19 +1,23 @@
-from app.domain.entities.item_os import ItemOS
+
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from decimal import Decimal
 from uuid import UUID, uuid4
 
+from app.domain.entities.item_os import ItemOS
 from app.domain.enums.status_os import StatusOS, StatusOrcamento
 
 
 @dataclass
 class OrdemServico:
-    itens: list[ItemOS] = field(default_factory=list)
+    # Campos obrigatórios primeiro
     cliente_id: UUID
     veiculo_id: UUID
 
+    # Campos com valores padrão
     id: UUID = field(default_factory=uuid4)
+
+    itens: list[ItemOS] = field(default_factory=list)
 
     status: StatusOS = StatusOS.RECEBIDA
     status_orcamento: StatusOrcamento = StatusOrcamento.PENDENTE
@@ -38,22 +42,6 @@ class OrdemServico:
         self.status = StatusOS.EM_DIAGNOSTICO
         self.diagnostico_em = datetime.now(timezone.utc)
 
-    '''def disponibilizar_orcamento(self, valor: Decimal):
-        if self.status != StatusOS.EM_DIAGNOSTICO:
-            raise ValueError(
-                "A OS precisa estar em diagnóstico"
-            )
-
-        valor = Decimal(str(valor))
-
-        if not valor.is_finite() or valor <= 0:
-            raise ValueError("O orçamento deve possuir valor positivo")
-
-        self.valor_orcamento = valor.quantize(Decimal("0.01"))
-        self.status_orcamento = StatusOrcamento.PENDENTE
-        self.status = StatusOS.AGUARDANDO_APROVACAO'''
-
-    
     def adicionar_item(self, item: ItemOS):
         if self.status != StatusOS.EM_DIAGNOSTICO:
             raise ValueError(
@@ -98,7 +86,6 @@ class OrdemServico:
         self.valor_orcamento = total
         self.status_orcamento = StatusOrcamento.PENDENTE
         self.status = StatusOS.AGUARDANDO_APROVACAO
-
 
     def aprovar_orcamento(self):
         if self.status != StatusOS.AGUARDANDO_APROVACAO:

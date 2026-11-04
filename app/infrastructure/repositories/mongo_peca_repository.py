@@ -57,3 +57,44 @@ class MongoPecaRepository(PecaRepository):
             self._para_entidade(documento)
             for documento in documentos
         ]
+
+'''
+def baixar_estoque(self, peca_id: UUID, quantidade: int) -> bool:
+    if isinstance(quantidade, bool) or not isinstance(quantidade, int):
+        raise ValueError("A quantidade deve ser um número inteiro.")
+
+    if quantidade <= 0:
+        raise ValueError("A quantidade deve ser maior que zero.")
+
+    resultado = self.collection.update_one(
+        {
+            "id": str(peca_id),
+            "quantidade_estoque": {"$gte": quantidade},
+        },
+        {
+            "$inc": {"quantidade_estoque": -quantidade}
+        },
+    )
+
+    return resultado.modified_count == 1
+'''
+
+def baixar_estoque(self, peca_id, quantidade, session=None):
+    if isinstance(quantidade, bool) or not isinstance(quantidade, int):
+        raise ValueError("A quantidade deve ser um número inteiro.")
+
+    if quantidade <= 0:
+        raise ValueError("A quantidade deve ser maior que zero.")
+
+    resultado = self.collection.update_one(
+        {
+            "id": str(peca_id),
+            "quantidade_estoque": {"$gte": quantidade},
+        },
+        {
+            "$inc": {"quantidade_estoque": -quantidade}
+        },
+        session=session,
+    )
+
+    return resultado.modified_count == 1

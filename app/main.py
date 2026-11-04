@@ -41,3 +41,7 @@ from app.api.routes.pecas import router as pecas_router
 
 app.include_router(servicos_router)
 app.include_router(pecas_router)
+
+from app.api.routes.ordens_servico import router as ordens_router
+
+app.include_router(ordens_router)

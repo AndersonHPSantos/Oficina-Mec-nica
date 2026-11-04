@@ -18,3 +18,8 @@ class Settings:
     )
 
 settings = Settings()
+
+MONGODB_TEST_DATABASE = os.getenv(
+    "MONGODB_TEST_DATABASE",
+    "oficina_test_db",
+)

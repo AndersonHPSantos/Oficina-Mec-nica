@@ -43,3 +43,21 @@ def criar_repositorio_servicos() -> MongoServicoRepository:
 
 def criar_repositorio_pecas() -> MongoPecaRepository:
     return MongoPecaRepository(database["pecas"])
+
+
+
+from app.infrastructure.repositories.mongo_ordem_servico_repository import (
+    MongoOrdemServicoRepository,
+)
+
+
+def criar_repositorio_ordens() -> MongoOrdemServicoRepository:
+    return MongoOrdemServicoRepository(database["ordens_servico"])
+
+
+
+from app.infrastructure.database_unit_of_work import MongoUnitOfWork
+
+
+def criar_unidade_trabalho():
+    return MongoUnitOfWork()
